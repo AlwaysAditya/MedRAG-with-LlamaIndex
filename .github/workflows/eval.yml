@@ -27,6 +27,6 @@ jobs:
         run: uv run pytest tests
       - name: Run MedRAG eval
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           LLAMA_CLOUD_API_KEY: ${{ secrets.LLAMA_CLOUD_API_KEY }}
         run: uv run pytest eval/medrag/test_medrag.py -s
