@@ -16,7 +16,7 @@ class AppSettings:
     active_project: str
     qdrant_host: str
     qdrant_port: int
-    openai_model: str
+    gemini_model: str
     embedding_model: str
     embedding_output_dimensionality: int
     embedding_batch_size: int
@@ -38,7 +38,7 @@ class AppSettings:
             active_project=os.getenv("ACTIVE_PROJECT", "medrag"),
             qdrant_host=os.getenv("QDRANT_HOST", "localhost"),
             qdrant_port=int(os.getenv("QDRANT_PORT", "6333")),
-            openai_model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+            gemini_model=os.getenv("GEMINI_MODEL", "gemini-3.6-flash"),
             embedding_model=os.getenv("EMBEDDING_MODEL", "BAAI/bge-small-en-v1.5"),
             embedding_output_dimensionality=int(
                 os.getenv("EMBEDDING_OUTPUT_DIMENSIONALITY", "384")

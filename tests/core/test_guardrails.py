@@ -13,7 +13,7 @@ def _settings(**overrides) -> AppSettings:
         active_project="medrag",
         qdrant_host="localhost",
         qdrant_port=6333,
-        openai_model="gpt-4o-mini",
+        gemini_model="gemini-3.6-flash",
         embedding_model="BAAI/bge-small-en-v1.5",
         embedding_output_dimensionality=384,
         embedding_batch_size=16,

@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -1547,16 +1547,17 @@ wheels = [
 ]
 
 [[package]]
-name = "llama-index-llms-openai"
-version = "0.4.7"
+name = "llama-index-llms-google-genai"
+version = "0.2.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "google-genai" },
     { name = "llama-index-core" },
-    { name = "openai" },
+    { name = "pillow" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d9/39/a7ce514fb500951e9edb713ed918a9ffe49f1a76fccfc531a4ec5c7fe15a/llama_index_llms_openai-0.4.7.tar.gz", hash = "sha256:564af8ab39fb3f3adfeae73a59c0dca46c099ab844a28e725eee0c551d4869f8", size = 24251, upload-time = "2025-06-16T03:38:47.175Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c4/48/daafbbb61993fd6361ebe636aca086b447dd25a43e2c3f5affde74c2ada5/llama_index_llms_google_genai-0.2.6.tar.gz", hash = "sha256:c690f3ab027de20663502f2731d4181f8b79ac8dbce88c72fc611fdceac87a45", size = 11546, upload-time = "2025-07-28T22:56:24.843Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/61/e9/391926dad180ced6bb37a62edddb8483fbecde411239bd5e726841bb77b4/llama_index_llms_openai-0.4.7-py3-none-any.whl", hash = "sha256:3b8d9d3c1bcadc2cff09724de70f074f43eafd5b7048a91247c9a41b7cd6216d", size = 25365, upload-time = "2025-06-16T03:38:45.72Z" },
+    { url = "https://files.pythonhosted.org/packages/4b/85/75100734a42c72ee1062c4929f33dddc1d357f805cc1dc65308392e3171c/llama_index_llms_google_genai-0.2.6-py3-none-any.whl", hash = "sha256:c700b6a444ad554c2035d96cc454a45a36dde652363176d9cda892bfe8a87502", size = 11948, upload-time = "2025-07-28T22:56:23.389Z" },
 ]
 
 [[package]]
@@ -3034,7 +3035,7 @@ dependencies = [
     { name = "httpx" },
     { name = "llama-index-core" },
     { name = "llama-index-embeddings-fastembed" },
-    { name = "llama-index-llms-openai" },
+    { name = "llama-index-llms-google-genai" },
     { name = "llama-index-readers-papers" },
     { name = "llama-index-vector-stores-qdrant" },
     { name = "llama-parse" },
@@ -3062,7 +3063,7 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.28,<0.29" },
     { name = "llama-index-core", specifier = ">=0.12,<0.13" },
     { name = "llama-index-embeddings-fastembed", specifier = ">=0.3,<0.4" },
-    { name = "llama-index-llms-openai", specifier = ">=0.4,<0.5" },
+    { name = "llama-index-llms-google-genai", specifier = ">=0.2.6,<0.3" },
     { name = "llama-index-readers-papers", specifier = ">=0.3,<0.4" },
     { name = "llama-index-vector-stores-qdrant", specifier = ">=0.4,<0.5" },
     { name = "llama-parse", specifier = ">=0.6,<0.7" },

@@ -153,7 +153,7 @@ class MedRAGIngestor(DocumentIngestor):
             abstracts = reader.load_data(search_query=query, max_results=max_results)
             for doc in abstracts:
                 metadata = dict(getattr(doc, "metadata", {}) or {})
-                metadata.update({"source": "pubmed", "query": query, "parser": "pubmed_reader"})
+                metadata.update({"source": "pubmed", "query": query, "parser": "pubmed_reader", "title": metadata.get("Title of this paper", "Untitled PubMed abstract"),})
                 doc.metadata = metadata
                 documents.append(doc)
         return documents
