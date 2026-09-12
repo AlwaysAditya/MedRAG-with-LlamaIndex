@@ -8,6 +8,10 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 
 from src.core.schemas import (
     EvalRunResponse,
+    GuardrailInputTestRequest,
+    GuardrailOutputTestRequest,
+    GuardrailStatusResponse,
+    GuardrailTestResponse,
     HealthResponse,
     PubMedQuerySummaryResponse,
     PubMedStatusResponse,
@@ -19,6 +23,7 @@ from src.core.schemas import (
     SourceMutationResponse,
 )
 from src.core.evals import load_latest_eval_result, run_medrag_eval
+from src.core.guardrails import check_prompt_injection, check_safeguard_policy
 from src.core.service import RAGService
 from src.core.settings import get_settings
 from src.core.source_manager import SourceManager
@@ -135,14 +140,53 @@ def reindex_sources() -> ReindexResponse:
 
 @app.post("/query", response_model=RAGResponse)
 def query(payload: QueryRequest) -> RAGResponse:
+    input_check = check_prompt_injection(payload.question, service.settings)
+    if not input_check.allowed:
+        raise HTTPException(
+            status_code=422, detail=f"Blocked by guardrail (input): {input_check.reason}"
+        )
+
     try:
         with service_lock:
             result = service.query(payload.question)
-        return result.response
     except FileNotFoundError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    output_check = check_safeguard_policy(
+        payload.question, result.response.answer, service.config.safeguard_policy, service.settings
+    )
+    if not output_check.allowed:
+        raise HTTPException(
+            status_code=422, detail=f"Blocked by guardrail (output): {output_check.reason}"
+        )
+
+    return result.response
+
+
+@app.get("/guardrails/status", response_model=GuardrailStatusResponse)
+def guardrail_status() -> GuardrailStatusResponse:
+    return GuardrailStatusResponse(
+        enabled=bool(service.settings.groq_api_key),
+        prompt_guard_model=service.settings.groq_prompt_guard_model,
+        safeguard_model=service.settings.groq_safeguard_model,
+        prompt_guard_threshold=service.settings.prompt_guard_threshold,
+    )
+
+
+@app.post("/guardrails/test-input", response_model=GuardrailTestResponse)
+def test_input_guardrail(payload: GuardrailInputTestRequest) -> GuardrailTestResponse:
+    result = check_prompt_injection(payload.question, service.settings)
+    return GuardrailTestResponse(allowed=result.allowed, reason=result.reason)
+
+
+@app.post("/guardrails/test-output", response_model=GuardrailTestResponse)
+def test_output_guardrail(payload: GuardrailOutputTestRequest) -> GuardrailTestResponse:
+    result = check_safeguard_policy(
+        payload.question, payload.answer, service.config.safeguard_policy, service.settings
+    )
+    return GuardrailTestResponse(allowed=result.allowed, reason=result.reason)
 
 
 @app.post("/evals/medrag/run", response_model=EvalRunResponse)

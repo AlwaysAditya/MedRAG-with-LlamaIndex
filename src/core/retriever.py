@@ -4,21 +4,16 @@ from src.core.base import ProjectConfig
 from src.core.settings import AppSettings
 
 def _build_llm(config: ProjectConfig, settings: AppSettings):
-    from llama_index.llms.google_genai import GoogleGenAI
+    from llama_index.llms.openai import OpenAI
 
     try:
-        return GoogleGenAI(
-            model=settings.gemini_model,
-            api_key=settings.gemini_api_key,
+        return OpenAI(
+            model=settings.openai_model,
             temperature=0.1,
             system_prompt=config.system_prompt,
         )
     except TypeError:
-        return GoogleGenAI(
-            model=settings.gemini_model,
-            api_key=settings.gemini_api_key,
-            temperature=0.1,
-        )
+        return OpenAI(model=settings.openai_model, temperature=0.1)
 
 
 def build_query_engine(index, config: ProjectConfig, settings: AppSettings):

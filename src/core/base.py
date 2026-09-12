@@ -26,6 +26,7 @@ class ProjectConfig:
     data_dir: Path
     metadata_fields: list[MetadataField]
     golden_dataset_path: Path
+    safeguard_policy: str
 
 
 class DocumentIngestor(ABC):

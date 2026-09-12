@@ -17,6 +17,7 @@ def _config(tmp_path: Path) -> ProjectConfig:
         data_dir=tmp_path,
         metadata_fields=[MetadataField(name="source_org", type="str", description="org")],
         golden_dataset_path=tmp_path / "golden.json",
+        safeguard_policy="policy",
     )
 
 

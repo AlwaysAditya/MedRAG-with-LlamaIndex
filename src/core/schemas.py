@@ -95,7 +95,29 @@ class EvalSummaryResponse(BaseModel):
 class EvalRunResponse(BaseModel):
     summary: EvalSummaryResponse
     cases: list[EvalCaseResultResponse]
-    
+
+
+class GuardrailStatusResponse(BaseModel):
+    enabled: bool
+    prompt_guard_model: str
+    safeguard_model: str
+    prompt_guard_threshold: float
+
+
+class GuardrailInputTestRequest(BaseModel):
+    question: str = Field(min_length=1, description="Question to run through the input guardrail")
+
+
+class GuardrailOutputTestRequest(BaseModel):
+    question: str = Field(min_length=1, description="Question paired with the answer being tested")
+    answer: str = Field(min_length=1, description="Candidate answer to run through the output guardrail")
+
+
+class GuardrailTestResponse(BaseModel):
+    allowed: bool
+    reason: str | None = None
+
+
 
 @dataclass(frozen=True)
 class QueryArtifacts:

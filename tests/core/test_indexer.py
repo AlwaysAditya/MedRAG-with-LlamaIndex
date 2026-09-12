@@ -29,6 +29,11 @@ def test_build_embed_model_uses_fastembed(monkeypatch):
         similarity_top_k=8,
         sparse_top_k=8,
         hybrid_alpha=0.5,
+        groq_api_key=None,
+        groq_prompt_guard_model="meta-llama/llama-prompt-guard-2-86m",
+        groq_safeguard_model="openai/gpt-oss-safeguard-20b",
+        guardrail_timeout_seconds=2.0,
+        prompt_guard_threshold=0.5,
     )
 
     embed_model = _build_embed_model(settings)
